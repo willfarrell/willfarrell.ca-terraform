@@ -22,10 +22,13 @@ exports.handler = (event, context, callback) => {
         " reflected-xss block;" +
         " referrer no-referrer-when-downgrade"}];
 
-    // Pinned Keys are the Amazon intermediate: "s:/C=US/O=Amazon/OU=Server CA 1B/CN=Amazon"
-    //   and LetsEncrypt "Let’s Encrypt Authority X1 (IdenTrust cross-signed)"
-    //   and TODO add in comodo
-    //headers['Public-Key-Pins']           = 'pin-sha256="JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA="; pin-sha256="YLh1dUR9y6Kja30RrAn7JKnbQG/uEtLMkBgFF2Fuihg="; max-age=1296001; includeSubDomains';
+    // Symantec Class 3 Secure Server CA - G4: pin-sha256="9n0izTnSRF+W4W4JTq51avSXkWhQB8duS2bxVLfzXsY="
+    // COMODO ECC Certification Authority: pin-sha256="58qRu/uxh4gFezqAcERupSkRYBlBAvfcw7mEjGPLnNU="
+    // IdenTrust Commercial Root CA 1: pin-sha256="B+hU8mp8vTiZJ6oEG/7xts0h3RQ4GK2UfcZVqeWH/og="
+    // headers['Public-Key-Pins-Report-Only'] =
+    //     'pin-sha256="JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=";' +
+    //     ' pin-sha256="YLh1dUR9y6Kja30RrAn7JKnbQG/uEtLMkBgFF2Fuihg=";' +
+    //     ' max-age=1296001; includeSubDomains';
 
     callback(null, response);
 };
