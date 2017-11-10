@@ -10,7 +10,7 @@ exports.handler = (event, context, callback) => {
     headers['Referrer-Policy']           = [{key: 'Referrer-Policy', value:"no-referrer"}];
 
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/default-src
-    headers['Content-Security-Policy']   = [{key: 'Content-Security-Policy', value:
+    headers['Content-Security-Policy-Report-Only']   = [{key: 'Content-Security-Policy', value:
         "default-src 'none';" +
         " img-src 'self';" +
         " script-src 'self';" +
