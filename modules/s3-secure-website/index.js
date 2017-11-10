@@ -9,15 +9,16 @@ exports.handler = (event, context, callback) => {
     headers['X-XSS-Protection']          = [{key: 'X-XSS-Protection', value:"1; mode=block"}];
     headers['Referrer-Policy']           = [{key: 'Referrer-Policy', value:"no-referrer"}];
 
+    // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/default-src
     headers['Content-Security-Policy']   = [{key: 'Content-Security-Policy', value:
-        "base-uri 'self';" +
-        " block-all-mixed-content;" +
-        " default-src 'none';" +
+        "default-src 'none';" +
         " img-src 'self';" +
         " script-src 'self';" +
         " style-src 'self';" +
-        " object-src 'none';" +
+        " base-uri 'none';" +
+        " frame-uri 'none';" +
         " frame-ancestors 'self';" +
+        " block-all-mixed-content;" +
         " upgrade-insecure-requests;" +
         " reflected-xss block;" +
         " referrer no-referrer-when-downgrade"}];
