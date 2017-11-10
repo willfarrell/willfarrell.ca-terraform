@@ -9,14 +9,18 @@ exports.handler = (event, context, callback) => {
     headers['X-XSS-Protection']          = [{key: 'X-XSS-Protection', value:"1; mode=block"}];
     headers['Referrer-Policy']           = [{key: 'Referrer-Policy', value:"no-referrer"}];
 
-    headers['Content-Security-Policy']   = [{key: 'Content-Security-Policy', value:"default-src 'none'; img-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'"}];
-
-    // headers['Strict-Transport-Security'] = "max-age=31536000; includeSubdomains; preload";
-    // headers['Content-Security-Policy']   = "default-src 'none'; img-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'";
-    // headers['X-Content-Type-Options']    = "nosniff";
-    // headers['X-Frame-Options']           = "DENY";
-    // headers['X-XSS-Protection']          = "1; mode=block";
-    // headers['Referrer-Policy']           = "no-referrer";
+    headers['Content-Security-Policy']   = [{key: 'Content-Security-Policy', value:
+        "base-uri 'self';" +
+        " block-all-mixed-content;" +
+        " default-src 'none';" +
+        " img-src 'self';" +
+        " script-src 'self';" +
+        " style-src 'self';" +
+        " object-src 'none';" +
+        " frame-ancestors 'self';" +
+        " upgrade-insecure-requests;" +
+        " reflected-xss block;" +
+        " referrer no-referrer-when-downgrade"}];
 
     // Pinned Keys are the Amazon intermediate: "s:/C=US/O=Amazon/OU=Server CA 1B/CN=Amazon"
     //   and LetsEncrypt "Let’s Encrypt Authority X1 (IdenTrust cross-signed)"
