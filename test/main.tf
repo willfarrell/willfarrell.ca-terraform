@@ -32,4 +32,6 @@ module "s3_test_website" {
   aws_region = "${var.aws_region}"
   bucket = "test-willfarrell-ca"
   cf_aliases = ["test.willfarrell.ca"]
+
+  report_uri_subdomain = "willfarrell"
 }

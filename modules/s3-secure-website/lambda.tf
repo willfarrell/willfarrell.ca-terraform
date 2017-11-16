@@ -18,11 +18,17 @@ resource "aws_lambda_function" "response_headers" {
   memory_size = 128
   timeout = 1
   publish = true
+  environment {
+    variables = {
+      REPORT_URI_SUBDOMAIN = "willfarrell"
+    }
+  }
 }
 
 data "aws_iam_policy_document" "lambda" {
   statement {
-    actions = ["sts:AssumeRole"]
+    actions = [
+      "sts:AssumeRole"]
     principals {
       type = "Service"
       identifiers = [
