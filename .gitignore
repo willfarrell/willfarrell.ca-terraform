@@ -5,7 +5,7 @@
 # Module directory
 .terraform/
 
-#*.zip
+*.zip
 
 # Logs
 logs
