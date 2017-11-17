@@ -9,9 +9,11 @@ variable "aws_region" {
   description = "AWS Region to deploy in"
 }
 
+// Suggested:
+// ${env}-${subdomain}-${domain}-${tld}-website
 variable "bucket" {
   type        = "string"
-  description = "AWS S3 Bucket"
+  description = "AWS S3 Bucket. {env}-{subdomain}-{domain}-{tld}-website"
 }
 
 variable "cf_aliases" {

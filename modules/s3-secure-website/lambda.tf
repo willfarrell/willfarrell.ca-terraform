@@ -8,7 +8,7 @@ data "archive_file" "response_headers" {
 }
 
 resource "aws_lambda_function" "response_headers" {
-  provider = "aws.us-east-1"
+  provider = "aws.edge"
   function_name = "response_headers"
   filename = "${data.archive_file.response_headers.output_path}"
   source_code_hash = "${data.archive_file.response_headers.output_base64sha256}"

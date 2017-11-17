@@ -25,12 +25,10 @@ exports.handler = (event, context, callback) => {
             " script-src 'self';" +
             " style-src 'self';" +
             " base-uri 'none';" +
-            " frame-uri 'none';" +
-            " frame-ancestors 'self';" +
-            " require-sri-for script style;" +
+            " frame-ancestors 'none';" +
+            //" require-sri-for script style;" +
             " block-all-mixed-content;" +
             " upgrade-insecure-requests;" +
-            " reflected-xss block;" +
             " referrer no-referrer-when-downgrade" +
             " report-uri https://"+process.env.REPORT_URI_SUBDOMAIN+".report-uri.com/r/d/csp/reportOnly"
     };

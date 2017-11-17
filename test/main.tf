@@ -22,7 +22,7 @@ provider "aws" {
 provider "aws" {
   # For Edge API Gateway
   region = "us-east-1"
-  alias = "us-east-1"
+  alias = "edge"
   profile = "willfarrell"
 }
 
@@ -30,7 +30,7 @@ module "s3_test_website" {
   source = "../modules/s3-secure-website"
   aws_account_id = "${var.aws_account_id}"
   aws_region = "${var.aws_region}"
-  bucket = "test-willfarrell-ca"
+  bucket = "test-willfarrell-ca-website"
   cf_aliases = ["test.willfarrell.ca"]
 
   report_uri_subdomain = "willfarrell"

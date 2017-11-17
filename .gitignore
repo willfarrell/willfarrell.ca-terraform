@@ -2,6 +2,11 @@
 *.tfstate
 *.tfstate.backup
 
+# Module directory
+.terraform/
+
+#*.zip
+
 # Logs
 logs
 *.log
