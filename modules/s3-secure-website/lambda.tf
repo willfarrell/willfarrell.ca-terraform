@@ -3,13 +3,15 @@ data "archive_file" "response_headers" {
   output_path = "${path.module}/function.zip"
   source {
     filename = "index.js"
-    content = "${file("${path.module}/index.js")}"
+    content  = "${var.lambda_edge_content != "null" ? "${var.lambda_edge_content}" : file("${path.module}/index.js") }"
   }
 }
 
 resource "aws_lambda_function" "response_headers" {
   provider = "aws.edge"
-  function_name = "response_headers"
+  function_name = "${var.env}-${var.name}-edge-response"
+  # ${var.env}-${var.name}-edge-response-2017-12-01 # HACK for dev
+  # function_name = "qa-emis-registration-website-edge-response-headers-2017-11-28"   # HACK for fixing AWS - QA Only
   filename = "${data.archive_file.response_headers.output_path}"
   source_code_hash = "${data.archive_file.response_headers.output_base64sha256}"
   role = "${aws_iam_role.lambda.arn}"
@@ -18,11 +20,6 @@ resource "aws_lambda_function" "response_headers" {
   memory_size = 128
   timeout = 1
   publish = true
-  environment {
-    variables = {
-      REPORT_URI_SUBDOMAIN = "willfarrell"
-    }
-  }
 }
 
 data "aws_iam_policy_document" "lambda" {
@@ -40,7 +37,7 @@ data "aws_iam_policy_document" "lambda" {
 }
 
 resource "aws_iam_role" "lambda" {
-  name_prefix = "${var.bucket}"
+  name = "${var.env}-${var.name}-edge-response"
   assume_role_policy = "${data.aws_iam_policy_document.lambda.json}"
 }
 

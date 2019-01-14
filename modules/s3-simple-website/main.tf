@@ -2,7 +2,6 @@ resource "aws_s3_bucket" "s3_static_website" {
   bucket = "${var.bucket}"
   region = "${var.aws_region}"
   acl    = "public-read"
-  //acl = "private"
   policy = "${data.aws_iam_policy_document.s3_static_website_policy.json}"
 
   website {

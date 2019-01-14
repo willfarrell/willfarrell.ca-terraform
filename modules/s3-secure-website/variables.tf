@@ -1,3 +1,8 @@
+variable "env" {
+    type        = "string"
+    description = "Environment"
+}
+
 variable "aws_account_id" {
   type        = "string"
   description = "AWS Account ID"
@@ -5,23 +10,33 @@ variable "aws_account_id" {
 
 variable "aws_region" {
   type        = "string"
-  default     = "us-east-1"
   description = "AWS Region to deploy in"
 }
 
 // Suggested:
-// ${env}-${subdomain}-${domain}-${tld}-website
-variable "bucket" {
+// ${env}-${subdomain}-${domain}-${tld}
+variable "name" {
   type        = "string"
-  description = "AWS S3 Bucket. {env}-{subdomain}-{domain}-{tld}-website"
+  description = "AWS S3 Bucket. {env}-{name}"
 }
 
-variable "cf_aliases" {
+variable "aliases" {
   type        = "list"
   description = "Cloudfront Aliases"
 }
 
-variable "report_uri_subdomain" {
+variable "acm_certificate_arn" {
+    "type" = "string"
+}
+
+variable "web_acl_id" {
+    type = "string"
+    default = ""
+    description = "WAF ACL ID"
+}
+
+variable "lambda_edge_content" {
   type    = "string"
-  description = "Subdomain for report-uri.com subdomain to use"
+  default = "null"
+  description = "function content to be used for edge lambda"
 }

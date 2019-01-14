@@ -1,12 +1,12 @@
 resource "aws_s3_bucket" "main" {
-  bucket              = "${var.bucket}"
+  bucket              = "${var.env}-${var.name}"
   region              = "${var.aws_region}"
   acl                 = "private"
   acceleration_status = "Enabled"
 }
 
 resource "aws_cloudfront_origin_access_identity" "main" {
-  comment = "${var.bucket} S3 website origin access policy"
+  comment = "${var.env} ${var.name} S3 website origin access policy"
 }
 
 data "aws_iam_policy_document" "s3" {

@@ -2,7 +2,7 @@
 terraform {
   backend "s3" {
     bucket         = "willfarrell.ca-terraform-state"
-    key            = "app/resume/terraform.tfstate"
+    key            = "willfarrell/resume/terraform.tfstate"
     region         = "ca-central-1"
     encrypt        = true
     profile        = "willfarrell"
@@ -10,19 +10,32 @@ terraform {
   }
 }
 
-variable "aws_account_id" {}
 variable "aws_region" {}
-variable "aws_profile" {}
-variable "domain_name" {}
+variable "profile" {}
 
 provider "aws" {
-  region = "${var.aws_region}"
-  profile = "willfarrell"
+  region  = "${var.aws_region}"
+  profile = "${var.profile}"
 }
 
-//module "s3_resume_website" {
-//  source = "../modules/s3-simple-website"
-//  aws_account_id = "${var.aws_account_id}"
-//  aws_region = "${var.aws_region}"
-//  bucket = "resume.${var.domain_name}"
-//}
+provider "aws" {
+  region  = "us-east-1"
+  alias   = "edge"
+  profile = "${var.profile}"
+}
+
+data "aws_acm_certificate" "resume" {
+  provider = "aws.edge"
+  domain   = "resume.willfarrell.ca"
+  statuses = [
+    "ISSUED"]
+}
+
+module "www" {
+  source              = "git@github.com:tesera/terraform-modules//public-static-assets"
+  name                = "resume-willfarrell-ca"
+  aliases             = [
+    "resume.willfarrell.ca"]
+  acm_certificate_arn = "${data.aws_acm_certificate.resume.arn}"
+  lambda_edge_content = "${file("${path.module}/edge.js")}"
+}

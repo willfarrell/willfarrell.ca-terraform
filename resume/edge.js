@@ -10,7 +10,7 @@ const headers = {
     "html": {
         // Content-Security-Policy-Report-Only: https://tesera.report-uri.com/r/d/csp/reportOnly
         // Content-Security-Policy:             https://tesera.report-uri.com/r/d/csp/enforce
-        "Content-Security-Policy": "default-src 'none';" +
+        "Content-Security-Policy-Report-Only": "default-src 'none';" +
             " img-src 'self';" +
             " script-src 'self';" +
             " style-src 'self';" +

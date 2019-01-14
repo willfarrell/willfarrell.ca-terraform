@@ -12,14 +12,29 @@ const headers = {
         // Content-Security-Policy:             https://tesera.report-uri.com/r/d/csp/enforce
         "Content-Security-Policy": "default-src 'none';" +
             " img-src 'self';" +
-            " script-src 'self';" +
-            " style-src 'self';" +
-            " connect-src 'self';" +
+            " font-src data:;" +
+            " script-src 'none';" +
+            " style-src 'unsafe-inline';" +
+            " connect-src 'none';" +
             " base-uri 'none';" +
             " frame-ancestors 'none';" +
             " block-all-mixed-content;" +
             " upgrade-insecure-requests;" +
-            " report-uri https://willfarrell.report-uri.com/r/d/csp/reportOnly",
+            " report-uri https://willfarrell.report-uri.com/r/d/csp/enforce",
+        "Feature-Policy": "" + 
+            " camera 'none';" +
+            " fullscreen 'self';" +
+            " gyroscope 'none';" +
+            " geolocation 'none';" +
+            " magnetometer 'none';" +
+            " microphone 'none';" +
+            " midi 'none';" +
+            " notifications 'none';" +
+            " push 'none';" +
+            " payment 'none';" +
+            " speaker 'none';" +
+            " sync-xhr 'self';" +
+            " vibrate 'none'",
         "X-Frame-Options": "DENY",
         "X-XSS-Protection": "1; mode=block",
         "X-UA-Compatible":"ie=edge"

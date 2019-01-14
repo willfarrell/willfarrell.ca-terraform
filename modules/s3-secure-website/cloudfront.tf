@@ -1,11 +1,14 @@
 resource "aws_cloudfront_distribution" "main" {
-  enabled         = true
-  http_version    = "http2"
-  is_ipv6_enabled = true
+  depends_on          = [
+    "aws_lambda_function.response_headers"]
 
-  aliases = "${var.cf_aliases}"
+  enabled             = true
+  http_version        = "http2"
+  #is_ipv6_enabled = true
+
+  aliases             = "${var.aliases}"
   origin {
-    origin_id   = "${var.bucket}"
+    origin_id   = "${var.env}-${var.name}"
     domain_name = "${aws_s3_bucket.main.bucket_domain_name}"
 
     s3_origin_config {
@@ -14,9 +17,14 @@ resource "aws_cloudfront_distribution" "main" {
   }
 
   default_cache_behavior {
-    target_origin_id = "${var.bucket}"
-    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
-    cached_methods   = ["GET", "HEAD"]
+    target_origin_id       = "${var.env}-${var.name}"
+    allowed_methods        = [
+      "GET",
+      "HEAD",
+      "OPTIONS"]
+    cached_methods         = [
+      "GET",
+      "HEAD"]
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
@@ -39,20 +47,14 @@ resource "aws_cloudfront_distribution" "main" {
   }
 
   viewer_certificate {
-    cloudfront_default_certificate  = true
-    minimum_protocol_version        = "TLSv1.2_2018"
-    ssl_support_method              = "sni-only"
+    acm_certificate_arn            = "${var.acm_certificate_arn}"
+    minimum_protocol_version       = "TLSv1.2_2018"
+    ssl_support_method             = "sni-only"
   }
 
   logging_config {
     include_cookies = false
     bucket          = "${aws_s3_bucket.s3_static_website_logs.bucket_domain_name}"
-  }
-
-  restrictions {
-    geo_restriction {
-      restriction_type = "none"
-    }
   }
 
   default_root_object = "index.html"
@@ -63,11 +65,17 @@ resource "aws_cloudfront_distribution" "main" {
     response_code         = 200
   }
 
-  //web_acl_id = "${var.web_acl_id}"
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+
+  web_acl_id          = "${var.web_acl_id}"
 }
 
 resource "aws_s3_bucket" "s3_static_website_logs" {
-  bucket = "${var.bucket}-access-logs"
+  bucket = "${var.env}-${var.name}-access-logs"
   lifecycle_rule {
     enabled = true
     expiration {
