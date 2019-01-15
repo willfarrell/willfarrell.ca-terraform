@@ -29,12 +29,9 @@ const headers = {
             " magnetometer 'none';" +
             " microphone 'none';" +
             " midi 'none';" +
-            " notifications 'none';" +
-            " push 'none';" +
             " payment 'none';" +
             " speaker 'none';" +
-            " sync-xhr 'self';" +
-            " vibrate 'none'",
+            " sync-xhr 'self'",
         "X-Frame-Options": "DENY",
         "X-XSS-Protection": "1; mode=block",
         "X-UA-Compatible":"ie=edge"

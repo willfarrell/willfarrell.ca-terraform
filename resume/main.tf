@@ -31,11 +31,12 @@ data "aws_acm_certificate" "resume" {
     "ISSUED"]
 }
 
-module "www" {
+module "resume" {
   source              = "git@github.com:tesera/terraform-modules//public-static-assets"
   name                = "resume-willfarrell-ca"
   aliases             = [
     "resume.willfarrell.ca"]
   acm_certificate_arn = "${data.aws_acm_certificate.resume.arn}"
-  lambda_edge_content = "${file("${path.module}/edge.js")}"
+  lambda_viewer_response = "${file("${path.module}/viewer-response.js")}"
 }
+
