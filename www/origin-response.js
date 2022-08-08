@@ -8,18 +8,31 @@ const headers = {
         "Strict-Transport-Security": "max-age=31536000; includeSubdomains; preload"
     },
     "html": {
-        // Content-Security-Policy-Report-Only: https://tesera.report-uri.com/r/d/csp/reportOnly
-        // Content-Security-Policy:             https://tesera.report-uri.com/r/d/csp/enforce
+        // Content-Security-Policy-Report-Only: https://{report-uri}.report-uri.com/r/d/csp/reportOnly
+        // Content-Security-Policy:             https://{report-uri}.report-uri.com/r/d/csp/enforce
         "Content-Security-Policy": "default-src 'none';" +
             " img-src 'self';" +
-            " script-src 'self';" +
-            " style-src 'self';" +
-            " connect-src 'self';" +
+            " font-src data:;" +
+            " script-src 'sha256-WEV9nNvWNzOmIgrlHxClw0smC6l2EhhvH+AHudWF46c=';" +
+            " style-src 'unsafe-inline';" +
+            " connect-src 'none';" +
+            " form-action 'none';" +
             " base-uri 'none';" +
             " frame-ancestors 'none';" +
             " block-all-mixed-content;" +
             " upgrade-insecure-requests;" +
-            " report-uri https://willfarrell.report-uri.com/r/d/csp/reportOnly",
+            " report-uri https://willfarrell.report-uri.com/r/d/csp/enforce",
+        "Feature-Policy": "" + 
+            " camera 'none';" +
+            " fullscreen 'none';" +
+            " gyroscope 'none';" +
+            " geolocation 'none';" +
+            " magnetometer 'none';" +
+            " microphone 'none';" +
+            " midi 'none';" +
+            " payment 'none';" +
+            " speaker 'none';" +
+            " sync-xhr 'none'",
         "X-Frame-Options": "DENY",
         "X-XSS-Protection": "1; mode=block",
         "X-UA-Compatible":"ie=edge"

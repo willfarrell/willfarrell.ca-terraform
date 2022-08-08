@@ -10,34 +10,38 @@ terraform {
   }
 }
 
-variable "aws_region" {}
-variable "profile" {}
-
 provider "aws" {
-  region  = "${var.aws_region}"
-  profile = "${var.profile}"
+  region  = local.workspace["region"]
+  profile = local.workspace["profile"]
 }
 
 provider "aws" {
   region  = "us-east-1"
   alias   = "edge"
-  profile = "${var.profile}"
+  profile = local.workspace["profile"]
 }
 
 data "aws_acm_certificate" "www" {
-  provider = "aws.edge"
-  domain   = "www.willfarrell.ca"
+  provider = aws.edge
+  domain   = local.workspace["domain"]
   statuses = [
-    "ISSUED"]
+    "ISSUED",
+  ]
 }
 
 module "www" {
-  source              = "git@github.com:tesera/terraform-modules//public-static-assets"
-  name                = "willfarrell-ca"
-  aliases             = [
-    "www.willfarrell.ca", "willfarrell.ca"]
-  acm_certificate_arn = "${data.aws_acm_certificate.www.arn}"
-  lambda_edge_content = "${file("${path.module}/edge.js")}"
+  source = "../../../github/terraform-public-static-assets"
+  name   = "www-willfarrell-ca"
+  aliases = [
+    local.workspace["domain"],
+    "willfarrell.ca",
+  ]
+  acm_certificate_arn    = data.aws_acm_certificate.www.arn
+  lambda_origin_response = file("${path.module}/origin-response.js")
+  logging_bucket         = "${local.workspace["name"]}-${terraform.workspace}-edge-logs"
+  providers = {
+    aws = aws.edge
+  }
 }
 
 //data "aws_acm_certificate" "www-redirect" {
@@ -55,8 +59,6 @@ module "www" {
 //  redirect            = "www.willfarrell.ca"
 //  acm_certificate_arn = "${data.aws_acm_certificate.www-redirect.arn}"
 //}
-
-
-output "bucket" {
-  value = "${module.www.bucket}"
-}
+//output "bucket" {
+//  value = "${module.www.bucket}"
+//}

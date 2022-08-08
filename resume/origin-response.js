@@ -12,10 +12,10 @@ const headers = {
         // Content-Security-Policy:             https://tesera.report-uri.com/r/d/csp/enforce
         "Content-Security-Policy": "default-src 'none';" +
             " img-src 'self';" +
-            " font-src data:;" +
             " script-src 'none';" +
-            " style-src 'unsafe-inline';" +
+            " style-src 'self';" +
             " connect-src 'none';" +
+            " form-action 'none';" +
             " base-uri 'none';" +
             " frame-ancestors 'none';" +
             " block-all-mixed-content;" +
@@ -23,7 +23,7 @@ const headers = {
             " report-uri https://willfarrell.report-uri.com/r/d/csp/enforce",
         "Feature-Policy": "" + 
             " camera 'none';" +
-            " fullscreen 'self';" +
+            " fullscreen 'none';" +
             " gyroscope 'none';" +
             " geolocation 'none';" +
             " magnetometer 'none';" +
@@ -31,10 +31,10 @@ const headers = {
             " midi 'none';" +
             " payment 'none';" +
             " speaker 'none';" +
-            " sync-xhr 'self'",
+            " sync-xhr 'none'",
         "X-Frame-Options": "DENY",
-        "X-XSS-Protection": "1; mode=block",
-        "X-UA-Compatible":"ie=edge"
+        "X-XSS-Protection": "1; mode=block"
+        //"X-UA-Compatible":"ie=edge"
     }
 };
 
@@ -58,6 +58,8 @@ function handler (event, context, callback) {
     const request = event.Records[0].cf.request;
     const response = event.Records[0].cf.response;
 
+    console.log('request',JSON.stringify(request),'response',JSON.stringify(response))
+
     let responseHeaders = getHeaders('any');
 
     // Catch 304 w/o Content-Type from S3
@@ -78,7 +80,5 @@ function handler (event, context, callback) {
 }
 
 module.exports = {
-    makeHeaders,
-    headers,
     handler
 };
